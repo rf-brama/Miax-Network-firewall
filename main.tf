@@ -108,7 +108,7 @@ resource "aws_networkfirewall_rule_group" "RuleGroup2" {
         stateless_rule {
           priority = 2
           rule_definition {
-            actions = ["aws:forward_to_sfe"]
+            actions = ["aws:pass"]
             match_attributes {
               protocols = [6]
               source {
@@ -117,17 +117,24 @@ resource "aws_networkfirewall_rule_group" "RuleGroup2" {
               destination {
                 address_definition = "0.0.0.0/0"
               }
-              source_port {
-                from_port = 0
-                to_port = 65535
-              }
-              destination_port {
-                from_port = 0
-                to_port = 65535
-              }
             }
           }
         }
+        stateless_rule {
+          priority = 3
+          rule_definition {
+            actions = ["aws:pass"]
+            match_attributes {
+              protocols = [17]
+              source {
+                address_definition = "0.0.0.0/0"
+              }
+              destination {
+                address_definition = "0.0.0.0/0"
+              }
+            }
+          }
+        }        
       }
     }
   }
