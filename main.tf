@@ -108,7 +108,7 @@ resource "aws_networkfirewall_rule_group" "RuleGroup2" {
         stateless_rule {
           priority = 2
           rule_definition {
-            actions = ["aws:pass"]
+            actions = ["aws:forward_to_sfe"]
             match_attributes {
               protocols = [6]
               source {
@@ -123,7 +123,7 @@ resource "aws_networkfirewall_rule_group" "RuleGroup2" {
         stateless_rule {
           priority = 3
           rule_definition {
-            actions = ["aws:pass"]
+            actions = ["aws:forward_to_sfe"]
             match_attributes {
               protocols = [17]
               source {
