@@ -7,7 +7,6 @@ provider "aws" {
   region = var.region
 }
 
-
 resource "aws_networkfirewall_firewall" "NetworkFirewall" {
   name = "Miax-network-firewall"
   firewall_policy_arn = aws_networkfirewall_firewall_policy.FirewallPolicy.arn
