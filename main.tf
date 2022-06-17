@@ -7,17 +7,26 @@ provider "aws" {
   region = var.region
 }
 
+data "terraform_remote_state" "remote" {
+  backend = "s3"
+  config = {
+    bucket = "miax-state-files"
+    key = "VPC/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_networkfirewall_firewall" "NetworkFirewall" {
   name = "Miax-network-firewall"
   firewall_policy_arn = aws_networkfirewall_firewall_policy.FirewallPolicy.arn
-  vpc_id = "vpc-0d0ba8de6402dcf04"
+  vpc_id = "${data.terraform_remote_state.remote.outputs.module_vpc1_vpc_id}"
   delete_protection = false
   subnet_change_protection = false
   firewall_policy_change_protection = false
   description = "Firewall for Miax Project"
 
   subnet_mapping {
-    subnet_id = "subnet-02bf3dd5f6df1b048"
+    subnet_id = "${data.terraform_remote_state.remote.outputs.module_vpc1_private_subnets[0]}"
   }
 }
 
